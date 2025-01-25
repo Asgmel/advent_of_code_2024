@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -48,4 +49,14 @@ func printInputError(err error) {
 func ReadInputLines(day int, use_test_input bool) []string {
 	input_string := ReadInputString(day, use_test_input)
 	return strings.Split(input_string, "\n")
+}
+
+func ReadInputRegex(regex string, day int, use_test_input bool) []string {
+	input_string := ReadInputString(day, use_test_input)
+	pattern, err := regexp.Compile(regex)
+
+	if err != nil {
+		panic(fmt.Sprintf("Error when compiling regex to ReadInputRegex: %s\n", err))
+	}
+	return pattern.FindAllString(input_string, -1)
 }
