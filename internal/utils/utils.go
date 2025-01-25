@@ -1,5 +1,9 @@
 package utils
 
+import (
+	"strconv"
+)
+
 func AbsoluteValue(value int) int {
 	if value < 0 {
 		return -value
@@ -13,4 +17,23 @@ func SumIntSlice(slice []int) int {
 		sum += val
 	}
 	return sum
+}
+
+func ConvertStrSliceToIntSlice(strSlice []string) []int {
+	intSlice := []int{}
+	for _, value := range strSlice {
+		intValue, err := strconv.Atoi(value)
+
+		if err != nil {
+			panic(err)
+		}
+
+		intSlice = append(intSlice, intValue)
+	}
+
+	return intSlice
+}
+
+func CopySlice[T any](slice []T) []T {
+	return append(slice[:0:0], slice...)
 }
