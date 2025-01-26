@@ -51,6 +51,15 @@ func ReadInputLines(day int, use_test_input bool) []string {
 	return strings.Split(input_string, "\n")
 }
 
+func ReadInputLetters(day int, use_test_input bool) [][]string {
+	split_string := [][]string{}
+	input_string := ReadInputLines(day, use_test_input)
+	for _, row := range input_string {
+		split_string = append(split_string, strings.Split(row, ""))
+	}
+	return split_string
+}
+
 func ReadInputRegex(regex string, day int, use_test_input bool) []string {
 	input_string := ReadInputString(day, use_test_input)
 	pattern, err := regexp.Compile(regex)
