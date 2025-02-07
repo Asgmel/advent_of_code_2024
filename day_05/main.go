@@ -65,7 +65,7 @@ func NewRuleSet(rawRuleSet []string) *RuleSet {
 }
 
 func main() {
-	puzzleInput := input.ReadInputLines(5, false)
+	puzzleInput := input.ReadInputLines(5, true)
 	commands, pageSets := splitCommandsFromPages(puzzleInput)
 	ruleSet := NewRuleSet(commands)
 	pageSetsSlice := changePagesStringToIntSlice(pageSets)
