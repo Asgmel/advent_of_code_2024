@@ -1,4 +1,4 @@
-package main
+package dayFour
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"github.com/Asgmel/advent_of_code_2024/internal/input"
 )
 
-func main() {
+func Run() {
 	puzzleInput := input.ReadInputLetters(4, false)
 	taskOne(puzzleInput)
 	taskTwo(puzzleInput)

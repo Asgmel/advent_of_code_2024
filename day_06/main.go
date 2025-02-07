@@ -1,4 +1,4 @@
-package main
+package daySix
 
 import (
 	"fmt"
@@ -135,7 +135,7 @@ func newState(stringTiles [][]string) state {
 	}
 }
 
-func main() {
+func Run() {
 	puzzle_input := input.ReadInputLetters(6, false)
 	taskOne(puzzle_input)
 }

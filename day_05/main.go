@@ -1,4 +1,4 @@
-package main
+package dayFive
 
 import (
 	"fmt"
@@ -64,7 +64,7 @@ func NewRuleSet(rawRuleSet []string) *RuleSet {
 	}
 }
 
-func main() {
+func Run() {
 	puzzleInput := input.ReadInputLines(5, true)
 	commands, pageSets := splitCommandsFromPages(puzzleInput)
 	ruleSet := NewRuleSet(commands)

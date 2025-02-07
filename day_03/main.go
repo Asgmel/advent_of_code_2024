@@ -1,4 +1,4 @@
-package main
+package dayThree
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"github.com/Asgmel/advent_of_code_2024/internal/utils"
 )
 
-func main() {
+func Run() {
 	taskOne()
 	taskTwo()
 }

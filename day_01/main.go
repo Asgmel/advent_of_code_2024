@@ -1,4 +1,4 @@
-package main
+package dayOne
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 	"github.com/Asgmel/advent_of_code_2024/internal/utils"
 )
 
-func main() {
+func Run() {
 	puzzleInput := input.ReadInputLines(1, false)
 	leftList, rightList := formatInput(puzzleInput)
 	taskOne(leftList, rightList)
