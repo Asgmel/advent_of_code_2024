@@ -1,31 +1,32 @@
 package dayTwo
 
 import (
-	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/Asgmel/advent_of_code_2024/internal/input"
 	"github.com/Asgmel/advent_of_code_2024/internal/utils"
 )
 
-func Run() {
-	puzzleInput := input.ReadInputLines(2, false)
-	formattedInput := formatInput(puzzleInput)
-	taskOne(formattedInput)
-	taskTwo(formattedInput)
+func Run() (func() string, func() string) {
+	return taskOne, taskTwo
 }
 
-func taskOne(formattedInput [][]int) {
+func taskOne() string {
+	puzzleInput := input.ReadInputLines(2, false)
+	formattedInput := formatInput(puzzleInput)
 	count := 0
 	for _, row := range formattedInput {
 		if (checkAscending(row) || checkDescending(row)) && checkDifference(row) {
 			count++
 		}
 	}
-	fmt.Printf("The answer to task one is: %v\n", count)
+	return strconv.Itoa(count)
 }
 
-func taskTwo(formattedInput [][]int) {
+func taskTwo() string {
+	puzzleInput := input.ReadInputLines(2, false)
+	formattedInput := formatInput(puzzleInput)
 	count := 0
 inputLoop:
 	for _, row := range formattedInput {
@@ -38,7 +39,7 @@ inputLoop:
 			}
 		}
 	}
-	fmt.Printf("The answer to task two is: %v\n", count)
+	return strconv.Itoa(count)
 }
 
 func formatInput(puzzleInput []string) [][]int {

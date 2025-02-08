@@ -2,28 +2,28 @@ package dayThree
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/Asgmel/advent_of_code_2024/internal/input"
 	"github.com/Asgmel/advent_of_code_2024/internal/utils"
 )
 
-func Run() {
-	taskOne()
-	taskTwo()
+func Run() (func() string, func() string) {
+	return taskOne, taskTwo
 }
 
-func taskOne() {
+func taskOne() string {
 	puzzleInput := input.ReadInputRegex(`mul\((\d+),(\d+)\)`, 3, false)
 	result := multiplyCommands(puzzleInput)
-	fmt.Printf("The result of task one is: %v\n", result)
+	return strconv.Itoa(result)
 }
 
-func taskTwo() {
+func taskTwo() string {
 	puzzleInput := input.ReadInputRegex(`(mul\(\d+,\d+\)|do\(\)|don't\(\))`, 3, false)
 	filteredPuzzleInput := filterCommands(puzzleInput)
 	result := multiplyCommands(filteredPuzzleInput)
-	fmt.Printf("The result of task two is %v\n", result)
+	return strconv.Itoa(result)
 }
 
 func multiplyCommands(commands []string) int {

@@ -1,8 +1,8 @@
 package dayFive
 
 import (
-	"fmt"
 	"math"
+	"strconv"
 	"strings"
 
 	"github.com/Asgmel/advent_of_code_2024/internal/input"
@@ -64,16 +64,15 @@ func NewRuleSet(rawRuleSet []string) *RuleSet {
 	}
 }
 
-func Run() {
-	puzzleInput := input.ReadInputLines(5, true)
-	commands, pageSets := splitCommandsFromPages(puzzleInput)
-	ruleSet := NewRuleSet(commands)
-	pageSetsSlice := changePagesStringToIntSlice(pageSets)
-	taskOne(ruleSet, pageSetsSlice)
-	taskTwo(ruleSet, pageSetsSlice)
+func Run() (func() string, func() string) {
+	return taskOne, taskTwo
 }
 
-func taskOne(ruleSet *RuleSet, pageSets [][]int) {
+func taskOne() string {
+	puzzleInput := input.ReadInputLines(5, false)
+	commands, pageSetsString := splitCommandsFromPages(puzzleInput)
+	ruleSet := NewRuleSet(commands)
+	pageSets := changePagesStringToIntSlice(pageSetsString)
 	validatedMiddlePages := []int{}
 	for _, pageSet := range pageSets {
 		validated, _ := ruleSet.ValidatePageNumbers(pageSet, false)
@@ -81,10 +80,14 @@ func taskOne(ruleSet *RuleSet, pageSets [][]int) {
 			validatedMiddlePages = append(validatedMiddlePages, getMiddleDigit(pageSet))
 		}
 	}
-	fmt.Printf("The answer to task one is: %v\n", utils.SumIntSlice(validatedMiddlePages))
+	return strconv.Itoa(utils.SumIntSlice(validatedMiddlePages))
 }
 
-func taskTwo(ruleSet *RuleSet, pageSets [][]int) {
+func taskTwo() string {
+	puzzleInput := input.ReadInputLines(5, false)
+	commands, pageSetsString := splitCommandsFromPages(puzzleInput)
+	ruleSet := NewRuleSet(commands)
+	pageSets := changePagesStringToIntSlice(pageSetsString)
 	validatedMiddlePages := []int{}
 	for _, pageSet := range pageSets {
 		validated, swapped := ruleSet.ValidatePageNumbers(pageSet, true)
@@ -92,7 +95,7 @@ func taskTwo(ruleSet *RuleSet, pageSets [][]int) {
 			validatedMiddlePages = append(validatedMiddlePages, getMiddleDigit(pageSet))
 		}
 	}
-	fmt.Printf("The answer to task two is: %v\n", utils.SumIntSlice(validatedMiddlePages))
+	return strconv.Itoa(utils.SumIntSlice(validatedMiddlePages))
 }
 
 func getMiddleDigit(numbers []int) int {

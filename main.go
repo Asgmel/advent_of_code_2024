@@ -38,7 +38,8 @@ func timer() func() {
 }
 
 func main() {
-	dayMap := map[string]func(){
+	// add new days here as they are finished
+	dayMap := map[string]func() (func() string, func() string){
 		"1": dayOne.Run,
 		"2": dayTwo.Run,
 		"3": dayThree.Run,
@@ -55,14 +56,21 @@ func main() {
 	} else if _, exists := dayMap[args[1]]; len(args) == 2 && !exists {
 		fmt.Println("Invalid parameter. Enter a valid number between 1 and 25.")
 	} else {
-		// taskOne, taskTwo := dayMap[args[2]]
+		taskOne, taskTwo := dayMap[args[1]]()
+		runTaskOne(taskOne)
+		runTaskTwo(taskTwo)
+		fmt.Println("--------------------------------------")
 	}
 }
 
-func runTaskOne() {
+func runTaskOne(task func() string) {
 	defer timer()()
+	fmt.Println("--------------------------------------")
+	fmt.Printf("The result of task one is %v.\n", task())
 }
 
-func runTaskTwo() {
+func runTaskTwo(task func() string) {
 	defer timer()()
+	fmt.Println("--------------------------------------")
+	fmt.Printf("The result of task two %v.\n", task())
 }

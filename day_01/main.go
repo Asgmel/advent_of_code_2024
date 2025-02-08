@@ -10,23 +10,24 @@ import (
 	"github.com/Asgmel/advent_of_code_2024/internal/utils"
 )
 
-func Run() {
+func Run() (func() string, func() string) {
+	return taskOne, taskTwo
+}
+
+func taskOne() string {
 	puzzleInput := input.ReadInputLines(1, false)
 	leftList, rightList := formatInput(puzzleInput)
-	taskOne(leftList, rightList)
-	taskTwo(leftList, rightList)
-}
-
-func taskOne(leftList []int, rightList []int) {
 	difference := findSliceDifference(leftList, rightList)
 	sum := utils.SumIntSlice(difference)
-	fmt.Printf("The answer to task 1 is: %v\n", sum)
+	return strconv.Itoa(sum)
 }
 
-func taskTwo(leftList []int, rightList []int) {
+func taskTwo() string {
+	puzzleInput := input.ReadInputLines(1, false)
+	leftList, rightList := formatInput(puzzleInput)
 	similarityScores := calculateSimilarityScore(leftList, rightList)
 	sum := utils.SumIntSlice(similarityScores)
-	fmt.Printf("The answer to task 2 is: %v\n", sum)
+	return strconv.Itoa(sum)
 }
 
 func calculateSimilarityScore(leftList []int, rightList []int) []int {

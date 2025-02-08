@@ -1,7 +1,7 @@
 package daySix
 
 import (
-	"fmt"
+	"strconv"
 
 	"github.com/Asgmel/advent_of_code_2024/internal/common"
 	"github.com/Asgmel/advent_of_code_2024/internal/input"
@@ -135,17 +135,18 @@ func newState(stringTiles [][]string) state {
 	}
 }
 
-func Run() {
-	puzzle_input := input.ReadInputLetters(6, false)
-	taskOne(puzzle_input)
+func Run() (func() string, func() string) {
+	return taskOne, taskTwo
 }
 
-func taskOne(puzzleInput [][]string) {
+func taskOne() string {
+	puzzleInput := input.ReadInputLetters(6, false)
 	state := newState(puzzleInput)
 	state.calculateRoute()
-	fmt.Printf("The route is %v steps long.\n", len(state.guard.getUniqueVisited()))
+	return strconv.Itoa(len(state.guard.visited))
 }
 
-func taskTwo() {
+func taskTwo() string {
+	return "not implemented"
 
 }

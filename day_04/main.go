@@ -1,23 +1,23 @@
 package dayFour
 
 import (
-	"fmt"
+	"strconv"
 
 	"github.com/Asgmel/advent_of_code_2024/internal/input"
 )
 
-func Run() {
+func Run() (func() string, func() string) {
+	return taskOne, taskTwo
+}
+
+func taskOne() string {
 	puzzleInput := input.ReadInputLetters(4, false)
-	taskOne(puzzleInput)
-	taskTwo(puzzleInput)
+	return strconv.Itoa(countWords(puzzleInput, "XMAS"))
 }
 
-func taskOne(puzzleInput [][]string) {
-	fmt.Printf("The answer to task one is: %v\n", countWords(puzzleInput, "XMAS"))
-}
-
-func taskTwo(puzzleInput [][]string) {
-	fmt.Printf("The answer to task two is: %v\n", countMasX(puzzleInput))
+func taskTwo() string {
+	puzzleInput := input.ReadInputLetters(4, false)
+	return strconv.Itoa(countMasX(puzzleInput))
 }
 
 func countWords(puzzleInput [][]string, word string) int {
