@@ -1,6 +1,7 @@
 package daySix
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/Asgmel/advent_of_code_2024/internal/common"
@@ -29,9 +30,10 @@ func newTile(position common.Position, letter string) tile {
 }
 
 type guard struct {
-	position  common.Position
-	direction direction
-	visited   []common.Position
+	position      common.Position
+	direction     direction
+	visited       []common.Position
+	turningPoints map[string]struct{}
 }
 
 func (guard *guard) step() {
@@ -51,8 +53,12 @@ func (guard guard) getUniqueVisited() []common.Position {
 	}
 	return uniqueVisited
 }
+func (guard guard) getPositionDirectionString() string {
+	return fmt.Sprintf("%v-%v", guard.position.ToString(), guard.direction)
+}
 
 func (guard *guard) turn() {
+	guard.turningPoints[guard.getPositionDirectionString()] = struct{}{}
 	switch guard.direction {
 	case north:
 		guard.direction = east
@@ -82,15 +88,17 @@ func (guard guard) getNextPosition() common.Position {
 
 func newGuard(position common.Position) *guard {
 	return &guard{
-		position:  position,
-		direction: north,
-		visited:   []common.Position{position},
+		position:      position,
+		direction:     north,
+		visited:       []common.Position{position},
+		turningPoints: map[string]struct{}{},
 	}
 }
 
 type state struct {
-	tiles [][]tile
-	guard *guard
+	tiles   [][]tile
+	guard   *guard
+	looping bool
 }
 
 func (state state) getTile(position common.Position) tile {
@@ -109,6 +117,10 @@ func (state *state) calculateRoute() {
 		}
 		nextTile := state.getTile(nextPosition)
 		if nextTile.obstructed {
+			if _, exists := state.guard.turningPoints[state.guard.getPositionDirectionString()]; exists {
+				state.looping = true
+				return
+			}
 			state.guard.turn()
 		} else {
 			state.guard.step()
@@ -130,8 +142,9 @@ func newState(stringTiles [][]string) state {
 		tiles = append(tiles, tileRow)
 	}
 	return state{
-		tiles: tiles,
-		guard: newGuard(guardPosition),
+		tiles:   tiles,
+		guard:   newGuard(guardPosition),
+		looping: false,
 	}
 }
 
@@ -143,10 +156,25 @@ func taskOne() string {
 	puzzleInput := input.ReadInputLetters(6, false)
 	state := newState(puzzleInput)
 	state.calculateRoute()
-	return strconv.Itoa(len(state.guard.visited))
+	return strconv.Itoa(len(state.guard.getUniqueVisited()))
 }
 
 func taskTwo() string {
-	return "not implemented"
+	puzzleInput := input.ReadInputLetters(6, false)
+	loopedStates := 0
+
+	for y, row := range puzzleInput {
+		for x, letter := range row {
+			if letter == "." {
+				state := newState(puzzleInput)
+				state.tiles[y][x] = newTile(common.Position{X: x, Y: y}, "#")
+				state.calculateRoute()
+				if state.looping {
+					loopedStates++
+				}
+			}
+		}
+	}
+	return strconv.Itoa(loopedStates)
 
 }
