@@ -11,29 +11,37 @@ import (
 type equation struct {
 	sum              int
 	numbers          []int
-	operators        []rune
-	allowedOperators []rune
+	operators        []string
+	allowedOperators []string
 	solvable         bool
 }
 
-func (eq equation) evaluateExpression(operators []rune) int {
+func (eq equation) evaluateExpression(operators []string) int {
 	result := eq.numbers[0]
+
 	for i, operator := range operators {
-		if operator == '+' {
+		if operator == "+" {
 			result += eq.numbers[i+1]
-		} else if operator == '*' {
+		} else if operator == "*" {
 			result *= eq.numbers[i+1]
+		} else if operator == "|" {
+			var err error
+			result, err = strconv.Atoi(strconv.Itoa(result) + strconv.Itoa(eq.numbers[i+1]))
+			if err != nil {
+				panic(err)
+			}
 		}
 	}
+
 	return result
 }
 
-func (eq equation) findOperations(operators []rune, index int) (bool, []rune) {
+func (eq equation) findOperations(operators []string, index int) (bool, []string) {
 	if index == len(eq.numbers)-1 {
 		if eq.evaluateExpression(operators) == eq.sum {
 			return true, operators
 		}
-		return false, []rune{}
+		return false, []string{}
 	}
 
 	for _, operator := range eq.allowedOperators {
@@ -43,7 +51,7 @@ func (eq equation) findOperations(operators []rune, index int) (bool, []rune) {
 		}
 	}
 
-	return false, []rune{}
+	return false, []string{}
 }
 func (eq *equation) checkIfSolvable() {
 	solvable, operators := eq.findOperations(eq.operators, 0)
@@ -53,7 +61,7 @@ func (eq *equation) checkIfSolvable() {
 	}
 }
 
-func newEquation(line string, allowedOperators []rune) equation {
+func newEquation(line string, allowedOperators []string) equation {
 	line = strings.TrimSpace(line)
 	lineParts := strings.Split(line, ": ")
 	sum, err := strconv.Atoi(lineParts[0])
@@ -65,7 +73,7 @@ func newEquation(line string, allowedOperators []rune) equation {
 	eq := equation{
 		sum:              sum,
 		numbers:          numbers,
-		operators:        make([]rune, len(numbers)-1),
+		operators:        make([]string, len(numbers)-1),
 		allowedOperators: allowedOperators,
 		solvable:         false,
 	}
@@ -80,7 +88,7 @@ func Run() (func() string, func() string) {
 func taskOne() string {
 	puzzleInput := input.ReadInputLines(7, false)
 	sum := 0
-	allowedOperators := []rune{'+', '*'}
+	allowedOperators := []string{"+", "*"}
 	for _, line := range puzzleInput {
 		equation := newEquation(line, allowedOperators)
 		if equation.solvable {
@@ -91,6 +99,14 @@ func taskOne() string {
 }
 
 func taskTwo() string {
-	return "wip"
-
+	puzzleInput := input.ReadInputLines(7, false)
+	sum := 0
+	allowedOperators := []string{"+", "*", "|"}
+	for _, line := range puzzleInput {
+		equation := newEquation(line, allowedOperators)
+		if equation.solvable {
+			sum += equation.sum
+		}
+	}
+	return strconv.Itoa(sum)
 }
