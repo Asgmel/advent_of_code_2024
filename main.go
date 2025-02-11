@@ -13,6 +13,7 @@ import (
 	"github.com/Asgmel/advent_of_code_2024/day_05"
 	"github.com/Asgmel/advent_of_code_2024/day_06"
 	"github.com/Asgmel/advent_of_code_2024/day_07"
+	"github.com/Asgmel/advent_of_code_2024/day_08"
 )
 
 // callerName returns the name of the function skip frames up the call stack.
@@ -48,6 +49,7 @@ func main() {
 		"5": dayFive.Run,
 		"6": daySix.Run,
 		"7": daySeven.Run,
+		"8": dayEight.Run,
 	}
 
 	args := os.Args
