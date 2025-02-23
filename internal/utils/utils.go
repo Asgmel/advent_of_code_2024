@@ -37,3 +37,17 @@ func ConvertStrSliceToIntSlice(strSlice []string) []int {
 func CopySlice[T any](slice []T) []T {
 	return append(slice[:0:0], slice...)
 }
+
+func FilterDuplicates[T comparable](slice []T) []T {
+	seen := map[T]bool{}
+	result := []T{}
+
+	for _, item := range slice {
+		if !seen[item] {
+			seen[item] = true
+			result = append(result, item)
+		}
+	}
+
+	return result
+}
